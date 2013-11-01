@@ -21,9 +21,7 @@ class MySpider(CrawlSpider):
 
         super(MySpider, self).__init__()
     def parse_item(self, response):
-
         hxs = HtmlXPathSelector(response)
-
         date=re.compile('\d+\/\d+\/\d+').findall(response.url)
         title=None
         if not date:
@@ -43,8 +41,6 @@ class MySpider(CrawlSpider):
 
         slug_short=slug.lower().encode('ascii','ignore')
         slug_nonum=(''.join([i for i in word_short(' '.join(slug_short.split('-'))) if i.isalpha()])).lower()
-
-
         title_tag_dict={'a':'//h1','b':'//h2','c':'//h3','d':'//h1/a','e':'//h2/a','f':'//h3/a'}
 
         ar=hxs.select("//h1/text()").extract()
@@ -88,8 +84,7 @@ class MySpider(CrawlSpider):
                 title=possible_title
             else:
                 title=None
-
-
+                
         if title:
             post_text=''
             div_len=0
@@ -109,7 +104,6 @@ class MySpider(CrawlSpider):
             post_text2=''
             div_len=0
             post_xpaths2=[title_xpath+"/../following-sibling::div[1]",title_xpath+"/../following-sibling::div[2]",title_xpath+"/../following-sibling::div[3]"]
-
             post_div=''
             for post_xpath in post_xpaths2:
                 div_html=hxs.select(post_xpath).extract()
@@ -143,8 +137,7 @@ class MySpider(CrawlSpider):
             text=self.ExtractAlphanumeric(post_text) if post_text else None
             date=date if date else None
             base_url=urlparse(response.url)
-
-
+            
             item=BlogItem(base_url=base_url.netloc,post_url=response.url,post_date=date,post_title=title,post_text=text)
             yield item
 

@@ -10,16 +10,15 @@ import nltk
 from fuzzywuzzy import fuzz
 
 class MySpider(CrawlSpider):
-
     name = 'craig'
+    
     def __init__(self,csvfile='blogs2.csv'):
         self.csvfile=csvfile
         self.allowed_domains= self.GetAllowedDomains(csvfile)
         self.start_urls = self.GetStartUrls(csvfile)
-
         self.rules = (Rule(SgmlLinkExtractor(allow=('/[a-z0-9-]+-',),deny=('\?')),follow=True,callback='parse_item'),)
-
         super(MySpider, self).__init__()
+        
     def parse_item(self, response):
         hxs = HtmlXPathSelector(response)
         date=re.compile('\d+\/\d+\/\d+').findall(response.url)

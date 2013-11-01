@@ -106,7 +106,6 @@ class MySpider(CrawlSpider):
                         post_text=div_text
                         div_len=len(div_text)
 
-            #if post is in upper /sibling div
             post_text2=''
             div_len=0
             post_xpaths2=[title_xpath+"/../following-sibling::div[1]",title_xpath+"/../following-sibling::div[2]",title_xpath+"/../following-sibling::div[3]"]
@@ -124,7 +123,6 @@ class MySpider(CrawlSpider):
 
             if len(post_text2)>len(post_text):
                 post_text=post_text2
-            #if no post is found in page and post is in 2nd upper div then
             if not post_text:
                 post_text=''
                 div_len=0
@@ -181,5 +179,4 @@ class MySpider(CrawlSpider):
 
                     blo=blo if 'http' in blo else 'http://'+blo
                     adomins.append(blo)
-
                 return adomins
